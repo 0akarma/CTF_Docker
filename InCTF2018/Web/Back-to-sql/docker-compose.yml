@@ -1,0 +1,27 @@
+version: '2'
+services:
+  # 基本环境
+  php: # 容器名字
+    # build 该置顶目录下的dockerfile
+    build: .
+    # image指定build Dockerfile生成镜像的名称
+    image: back-to-sql
+    ports:
+      - 10000:80
+    volumes:
+        - "$PWD/html:/var/www/html"
+        - "$PWD/run.sh:/var/www/run.sh"
+        # 挂载的 Flag
+        - "$PWD/flag:/var/www/flag"
+        - "$PWD/apache2.conf:/etc/apache2/apache2.conf"
+    command: 
+        - /var/www/run.sh
+    tty: true
+    networks:
+      - net
+
+networks:
+    # 配置docker network
+    net:
+        external:
+          name: CTFD
